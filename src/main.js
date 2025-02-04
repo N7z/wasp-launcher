@@ -11,15 +11,25 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1280,
-    height: 720,
+    height: 700,
+    resizable: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: true,
+      contextIsolation: false,
     },
     autoHideMenuBar: true,
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  // mainWindow.webContents.openDevTools();
+
+  // Ajuste da CSP para permitir requisições externas
+  win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    details.responseHeaders['Content-Security-Policy'] = [
+      "default-src 'self'; connect-src 'self' https://hydralinks.cloud"
+    ];
+    callback({ cancel: false, responseHeaders: details.responseHeaders });
+  });
 };
 
 // This method will be called when Electron has finished
