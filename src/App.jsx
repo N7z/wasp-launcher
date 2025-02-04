@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function App() {
     return (
-        <div>App</div>
+        <div className="min-h-screen max-h-full bg-zinc-950">
+            <div className='font-bold text-white'>App</div>
+        </div>
     )
 }
